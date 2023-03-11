@@ -9,7 +9,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   next: NextFunction
 ) => {
 
-  console.log('error: ', error)
+  console.log('error: ', error.name)
   if(error.name === "MongoServerError"){
     switch(error.code){
       case 11000: 
@@ -20,6 +20,8 @@ const globalErrorHandler: ErrorRequestHandler = (
     }
   }else if(error.name === "ValidationError"){
     return apiErrorResponse(400, "The data you are sending is not in the correct format", res)
+  }else if(error.name === "CastError"){
+    return apiErrorResponse(400, "Invalid data format, please retype your data again", res)
   }
   apiErrorResponse(400, "Invalid request", res);
 };
