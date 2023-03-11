@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Verify Account</title>
+  <style type='text/css'>
+    body {
+      padding:0;
+      margin:0;
+    }
+    .main-wrapper {
+      background-color: #EBF1F7;
+      width: 100%;
+    }
+    .center-btn {
+      padding: 0 50%;
+      margin-top: 40px;
+    }
+    .main-content {
+      background-color: #fff;
+      padding: 5%;
+      margin: 2%;
+      border-radius :10px;
+      max-width: 400px;
+    }
+    a {
+      background-color: #393f99;
+      color: #fff!important; 
+      padding: 15px;
+      border-radius: 8px;
+      border:none; 
+      text-decoration: none;
+      font-size: 18px;
+    }
+    p {
+      font-size: 16px;
+      color: #000;
+    }
+    .footer {
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="main-wrapper">
+    <tr>
+      <td align="center">
+        <div class='main-content'>
+          {{!-- <div align="left"><img src={{ logo }} width='80' height='80' alt=''/></div> --}}
+          <div align="left">
+            <h3>Hi</b>,</h3>
+            <p>You have been added to approve a campaign on Fundme,</p>
+            <p>click on the button below to review it</p>
+          </div>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 30px 0;">
+            <tr>
+              <td align="center">
+                <a href={{ actionUrl }}>
+                  Verify Campaign
+                </a>
+              </td>
+            </tr>
+          </table>
+          <div align="left">
+            <p>Thanks.</p>
+          </div>
+          <hr/>
+          <p align="left">Fundme Inc.</p>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
