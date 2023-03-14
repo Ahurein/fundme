@@ -2,7 +2,7 @@
 
 import {NextFunction, Request, Response} from "express";
 import {keys} from "../../config/keys";
-import {decodeToken} from "../../helpers/auth.helpers";
+import {decodeToken, encodeToken} from "../../helpers/auth.helpers";
 import { FilterCampaigns } from "../../helpers/filter.helper";
 import {ICampaignModel} from "../../interfaces/campaign.interface";
 import {logger} from "../../logger";
@@ -18,6 +18,7 @@ import {
 
 const createCampaign = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    //TODO: add videos and picture
     const data = req.body;
     const userProfile = await createCampaignService(data);
     return apiResponse(200, userProfile, null, res);
@@ -28,7 +29,7 @@ const getCampaign = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
     const campaign = await getCampaignService(id);
-    if (!campaign) return apiErrorResponse(400, "No campaign to return", res);
+    if (!campaign) return apiErrorResponse(400, "Invalid campaign Id", res);
     return apiResponse(200, campaign, null, res);
   }
 );
@@ -45,6 +46,7 @@ const getAllCampaigns = catchAsync(
 
 const updateCampaign = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    //TODO: add videos and picture update
     const fields = [
       "targetAmount",
       "currentAmount",
@@ -119,10 +121,21 @@ const verifyCampaign = catchAsync(
 const filterCampaigns = catchAsync(async (req: Request, res: Response) => {
   const campaigns = await getAllCampaignsService()
   const {lowerPrice, higherPrice, sortBy} = req.body
-  
+
   const filteredData = new FilterCampaigns(campaigns).byOrder(sortBy).byLowerPrice(lowerPrice).byHigherPrice(higherPrice);
 
   return apiResponse(200, filteredData, null, res);
+})
+
+const initiateDonation = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.body;
+  const campaign = await getCampaignService(id);
+  if (!campaign) return apiErrorResponse(400, "Invalid campaign Id", res);
+
+  const donationCallback = `${keys.BASE_HOOK_URL}/donate/${encodeToken({id}, keys.IDS_TOKEN_KEY!)}`
+
+  // TODO: redirect the user to payment platform instead of sending response
+  return apiResponse(200,null, "Request successful", res);
 })
 
 export {
@@ -132,5 +145,6 @@ export {
   verifyCampaign,
   updateCampaign,
   deleteCampaign,
-  filterCampaigns
+  filterCampaigns,
+  initiateDonation
 };
