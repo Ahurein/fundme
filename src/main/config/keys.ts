@@ -9,7 +9,8 @@ const keys = {
   GMAIL_PASS: "nzbndbmgipvzoqtw",
   SMTP_HOST: "gmail",
   BASE_URL: process.env.BASE_URL,
-  IDS_TOKEN_KEY: process.env.IDS_TOKEN_KEY
+  IDS_TOKEN_KEY: process.env.IDS_TOKEN_KEY,
+  BASE_HOOK_URL: process.env.BASE_HOOK_URL
 };
 
 export {keys};

@@ -18,6 +18,9 @@ const transactionSchema = new Schema<ITransaction>(
       enum: ["Pending", "Successful", "Declined"],
       default: "Pending",
     },
+    amount: {
+      type: Schema.Types.Number,
+    }
   },
   {timestamps: true}
 );
