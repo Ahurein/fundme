@@ -3,6 +3,7 @@
 import {NextFunction, Request, Response} from "express";
 import {keys} from "../../config/keys";
 import {decodeToken} from "../../helpers/auth.helpers";
+import { FilterCampaigns } from "../../helpers/filter.helper";
 import {ICampaignModel} from "../../interfaces/campaign.interface";
 import {logger} from "../../logger";
 import {apiErrorResponse, apiResponse} from "../../utility/apiResponse";
@@ -101,9 +102,6 @@ const verifyCampaign = catchAsync(
     let approvedStatus = true;
     if (!campaign) return apiResponse(400, null, "Invalid Request", res);
     const newApprovals: any = campaign?.approvals.map((approval: any) => {
-      console.log("db email: ", approval.email);
-      console.log("token email: ", data.email);
-      console.log(approval);
       if (approval.email === data.email) {
         approval.verified = true;
       }
@@ -118,6 +116,15 @@ const verifyCampaign = catchAsync(
   }
 );
 
+const filterCampaigns = catchAsync(async (req: Request, res: Response) => {
+  const campaigns = await getAllCampaignsService()
+  const {lowerPrice, higherPrice, sortBy} = req.body
+  
+  const filteredData = new FilterCampaigns(campaigns).byOrder(sortBy).byLowerPrice(lowerPrice).byHigherPrice(higherPrice);
+
+  return apiResponse(200, filteredData, null, res);
+})
+
 export {
   createCampaign,
   getCampaign,
@@ -125,4 +132,5 @@ export {
   verifyCampaign,
   updateCampaign,
   deleteCampaign,
+  filterCampaigns
 };

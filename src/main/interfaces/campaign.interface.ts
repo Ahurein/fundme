@@ -11,7 +11,9 @@ export interface ICampaign {
   currency: string;
   pictures?: string;
   videos?: string;
-  approved?: boolean
+  approved?: boolean,
+  createdAt?: string,
+  updatedAt?: string
 }
 
 
