@@ -9,6 +9,7 @@ import { transports, format } from "winston";
 import { logger, requestLogger } from "./logger";
 import { profileRoute } from "./app/profile/profile.route";
 import { campaignRoute } from "./app/campaigns/campaign.route";
+import { transactionRoute } from "./app/transactions/transaction.route";
 
 const app: Express = express();
 const router = express.Router();
@@ -42,6 +43,7 @@ app.use("/api/v1", router);
 userRoute(router);
 profileRoute(router);
 campaignRoute(router);
+transactionRoute(router)
 
 app.get("*", (req, res, next) => {
   res.send("Integration successful");

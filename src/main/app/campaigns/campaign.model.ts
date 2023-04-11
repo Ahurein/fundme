@@ -1,7 +1,7 @@
 import mongoose, {model, Schema, Types} from "mongoose";
-import { sendCampaignVerifyEmail } from "../../helpers/sendEmail";
-import {ICampaign} from "../../interfaces/campaign.interface";
-import { logger } from "../../logger";
+import {sendCampaignVerifyEmail} from "../../helpers/sendEmail";
+import {ICampaign, ICampaignModel} from "../../interfaces/campaign.interface";
+import {logger} from "../../logger";
 
 const campaignSchema = new Schema<ICampaign>(
   {
@@ -27,6 +27,10 @@ const campaignSchema = new Schema<ICampaign>(
       type: String,
       enum: ["Verified", "Pending", "Declined"],
       default: "Pending",
+    },
+    targetReached: {
+      type: Boolean,
+      default: false,
     },
     goal: {
       type: String,
@@ -57,17 +61,18 @@ const campaignSchema = new Schema<ICampaign>(
   {timestamps: true}
 );
 
-campaignSchema.pre("save", function(next){
-  this.approvals.forEach(async ({email})=> {
-    if(await sendCampaignVerifyEmail(this.id, email)){
-      logger.info('Verification email sent successfully')
-    }else {
-      logger.warn('Verification email not sent')
+//TODO: move this function to avoid rerenders
+campaignSchema.pre("save", function (next) {
+  this.approvals.forEach(async ({email}) => {
+    if (await sendCampaignVerifyEmail(this.id, email)) {
+      logger.info("Verification email sent successfully");
+    } else {
+      logger.warn("Verification email not sent");
     }
-  })
+  });
 
-  next()
-})
-const CampaignModel = model("campaign", campaignSchema);
+  next();
+});
+const CampaignModel = model<ICampaignModel>("campaign", campaignSchema);
 
 export default CampaignModel;

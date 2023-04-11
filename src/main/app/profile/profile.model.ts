@@ -1,5 +1,5 @@
 import {model, Schema, Types} from "mongoose";
-import { IProfile } from "../../interfaces/profile.interface";
+import { IProfile, IProfileModel } from "../../interfaces/profile.interface";
 
 const profileSchema = new Schema<IProfile>(
   {
@@ -28,6 +28,6 @@ const profileSchema = new Schema<IProfile>(
 );
 
 
-const ProfileModel = model("profile", profileSchema);
+const ProfileModel = model<IProfileModel>("profile", profileSchema);
 
 export default ProfileModel;

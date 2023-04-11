@@ -1,6 +1,6 @@
 import {model, Schema, Types} from "mongoose";
 import bcrypt from "bcrypt";
-import {IUser} from "../../interfaces/user.interface";
+import {IUser, IUserModel} from "../../interfaces/user.interface";
 
 const userSchema = new Schema<IUser>(
   {
@@ -18,6 +18,6 @@ const userSchema = new Schema<IUser>(
 //   next();
 // });
 
-const UserModel = model("user", userSchema);
+const UserModel = model<IUserModel>("user", userSchema);
 
 export default UserModel;

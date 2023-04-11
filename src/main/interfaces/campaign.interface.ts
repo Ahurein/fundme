@@ -6,6 +6,7 @@ export interface ICampaign {
   currentAmount: number;
   approvals: [];
   status: string;
+  targetReached: boolean;
   goal: string;
   additionalInfo: string;
   currency: string;

@@ -6,3 +6,7 @@ export interface IBalance {
     amountReceived: number,
     amountDonated: number,
 }
+
+
+
+export type IBalanceModel  = IBalance & mongoose.Document;

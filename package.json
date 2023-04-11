@@ -24,7 +24,9 @@
     "ts-node-dev": "^2.0.0"
   },
   "dependencies": {
+    "@types/multer-s3": "^3.0.0",
     "@types/nodemailer": "^6.4.7",
+    "aws-sdk": "^2.1339.0",
     "bcrypt": "^5.1.0",
     "express": "^4.18.2",
     "express-winston": "^4.2.0",
@@ -33,6 +35,8 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.8.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
     "nodemailer": "^6.9.1",
     "winston": "^3.8.2",
     "zod": "^3.20.2"

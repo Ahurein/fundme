@@ -5,4 +5,8 @@ interface IResponseData {
     _id?: Types.ObjectId;
 }
 
-export {IResponseData};
+interface IServiceOptions {
+    populate?: string;
+}
+
+export {IResponseData, IServiceOptions};

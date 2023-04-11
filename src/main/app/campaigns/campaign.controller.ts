@@ -1,5 +1,6 @@
 //TODO: protect all route
 
+
 import {NextFunction, Request, Response} from "express";
 import {keys} from "../../config/keys";
 import {decodeToken, encodeToken} from "../../helpers/auth.helpers";
@@ -8,6 +9,7 @@ import {ICampaignModel} from "../../interfaces/campaign.interface";
 import {logger} from "../../logger";
 import {apiErrorResponse, apiResponse} from "../../utility/apiResponse";
 import catchAsync from "../../utility/catchAsync";
+import CampaignModel from "./campaign.model";
 import {
   createCampaignService,
   deleteCampaignService,
@@ -132,12 +134,20 @@ const initiateDonation = catchAsync(async (req: Request, res: Response) => {
   const campaign = await getCampaignService(id);
   if (!campaign) return apiErrorResponse(400, "Invalid campaign Id", res);
 
-  const donationCallback = `${keys.BASE_HOOK_URL}/donate/${encodeToken({id}, keys.IDS_TOKEN_KEY!)}`
+  const donationCallback = `${keys.BASE_HOOK_URL}/transaction/hook/donate/${encodeToken({id}, keys.IDS_TOKEN_KEY!)}`
 
   // TODO: redirect the user to payment platform instead of sending response
-  return apiResponse(200,null, "Request successful", res);
+  return apiResponse(200,{donationCallback}, "Request successful", res);
 })
 
+const searchCampaigns  =  catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {search} = req.body;
+    if (!search) return apiErrorResponse(400, "Invalid request", res);
+    const campaigns = await CampaignModel.find({goal: {$regex: search, $options: 'i'}});
+    apiResponse(200, {counts: campaigns.length, campaigns}, "Request successful", res);
+  }
+);
 export {
   createCampaign,
   getCampaign,
@@ -146,5 +156,6 @@ export {
   updateCampaign,
   deleteCampaign,
   filterCampaigns,
+  searchCampaigns,
   initiateDonation
 };

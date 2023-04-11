@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import { ICampaign, ICampaignModel } from "./campaign.interface";
+import { IUser } from "./user.interface";
 
 export interface ITransaction {
   userId: mongoose.Schema.Types.ObjectId;
@@ -8,3 +10,5 @@ export interface ITransaction {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export type ITransactionModel = ITransaction & mongoose.Document

@@ -1,8 +1,15 @@
 import CampaignModel from "./campaign.model";
 
+interface IServiceOptions {
+    populate?: string;
+}
+
 const createCampaignService = async (data: any) => await CampaignModel.create(data) 
 
-const getCampaignService = async (id: any) => await CampaignModel.findById(id)
+const getCampaignService = async (id: any, options?: IServiceOptions) => {
+    if(options?.populate)   return await CampaignModel.findById(id).populate(options.populate) 
+    return await CampaignModel.findById(id)
+}
 
 const getAllCampaignsService = async () => await CampaignModel.find()
 

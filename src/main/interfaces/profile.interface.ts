@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export interface IProfile {
   userId: string;
   country: string;
@@ -6,3 +8,6 @@ export interface IProfile {
   lastName: string;
   picture: string;
 }
+
+
+export type IProfileModel = IProfile & mongoose.Document
